@@ -1,0 +1,48 @@
+Tabela,Coluna,Tipo,PK,FK,Not Null,Descrição
+professional,id,uuid,Y,,Y,Identificador do profissional
+professional,full_name,text,,,Y,Nome completo
+professional,public_display_name,text,,,Y,Nome público
+professional,external_ids,jsonb,,,N,IDs externos (CRM etc.)
+professional,created_at,timestamptz,,,Y,Criação
+professional,updated_at,timestamptz,,,Y,Atualização
+location,id,uuid,Y,,Y,Local
+location,city,text,,,Y,Cidade
+location,uf,text,,,Y,UF
+location,region,text,,,N,Região macro
+professional_location,id,uuid,Y,,Y,Junction profissional-local
+professional_location,professional_id,uuid,,professional(id),Y,FK profissional
+professional_location,location_id,uuid,,location(id),Y,FK local
+professional_location,active,boolean,,,Y,Se atende neste local
+operator,id,uuid,Y,,Y,Operadora
+operator,name,text,,,Y,Nome
+operator,ans_code,text,,,N,Código ANS
+operator,aliases,jsonb,,,N,Variações de nomes
+operator,active,boolean,,,Y,Ativo
+operator,created_at,timestamptz,,,Y,Criação
+operator,updated_at,timestamptz,,,Y,Atualização
+plan,id,uuid,Y,,Y,Plano
+plan,operator_id,uuid,,operator(id),Y,FK operadora
+plan,product_code,text,,,Y,Código
+plan,product_name,text,,,Y,Nome
+plan,network_type,text,,plan_network_type(name),Y,Tipo de rede (referência)
+plan,active,boolean,,,Y,Ativo
+plan,metadata,jsonb,,,N,Metadados flexíveis
+plan,created_at,timestamptz,,,Y,Criação
+plan,updated_at,timestamptz,,,Y,Atualização
+specialty,id,uuid,Y,,Y,Especialidade
+specialty,name,text,,,Y,Nome
+professional_specialty,id,uuid,Y,,Y,Junction profissional-especialidade
+professional_specialty,professional_id,uuid,,professional(id),Y,FK profissional
+professional_specialty,specialty_id,uuid,,specialty(id),Y,FK especialidade
+professional_plan,id,uuid,Y,,Y,N:N profissional-plano
+professional_plan,professional_id,uuid,,professional(id),Y,FK profissional
+professional_plan,plan_id,uuid,,plan(id),Y,FK plano
+professional_plan,acceptance_status,text,,acceptance_status,Y,Status (enum)
+professional_plan,acceptance_notes,text,,,N,Observações
+professional_plan,valid_from,timestamptz,,,N,Início de validade
+professional_plan,valid_to,timestamptz,,,N,Fim de validade
+professional_plan,location_id,uuid,,location(id),N,Local específico
+professional_plan,requirements,jsonb,,,N,Requisitos/documentos
+professional_plan,updated_by,text,,,N,Responsável
+professional_plan,created_at,timestamptz,,,Y,Criação
+professional_plan,updated_at,timestamptz,,,Y,Atualização
